@@ -23,12 +23,10 @@ import SVGChat from '../assets/svgs/svgChat';
 import SVGCog from '../assets/svgs/svgCog';
 
 import LoginPage from '../screens/login';
-// import RegisterPage from '../screens/register';
 import LoadingPage from '../screens/loading/index';
 import HomePage from '../screens/home';
-// import ChatPage from '../screens/chat';
-// import SettingsPage from '../screens/settings';
-// import ForgotPasswordPage from '../screens/forgotPassword';
+import ChatPage from '../screens/chat';
+import SettingsPage from '../screens/settings';
 // import PropertyNewEditPage from '../screens/propertyNewEdit';
 // import PropertyDetailPage from '../screens/propertyDetail';
 // import InspectionPage from '../screens/inspection';

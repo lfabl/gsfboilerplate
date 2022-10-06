@@ -12,17 +12,6 @@ import {
 } from '../../theme';
 import stylesheet from './stylesheet';
 
-interface IButtonProps {
-    titleStyle?: TextStyle;
-    onPress: () => void;
-    disabled?: boolean;
-    textColor?: string;
-    image?: ReactNode;
-    style?: ViewStyle;
-    title?: string;
-    color?: string;
-};
-
 const Button = ({
     titleStyle,
     textColor,
@@ -32,7 +21,7 @@ const Button = ({
     color,
     image,
     style
-}: IButtonProps) => {
+}) => {
     return <TouchableOpacity
         onPress={disabled ? undefined : onPress}
         disabled={disabled}

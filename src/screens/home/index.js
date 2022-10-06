@@ -53,7 +53,7 @@ const Home = () => {
     }, [data]);
 
     useEffect(() => {
-        // getInitializeData(globalState, setGlobalState);
+        getInitializeData(globalState, setGlobalState);
     }, []);
 
     useEffect(() => {
