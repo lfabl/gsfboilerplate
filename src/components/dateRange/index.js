@@ -221,7 +221,14 @@ const NoLit = ({
         const dTWithWeek = new Date(moment(new Date(dTState)).set("week", toWeekText));
         const dFWithWeek = new Date(moment(new Date(dFState)).set("week", fromWeekText));
 
-        const dateDiff = moment(dTWithWeek).diff(moment(dFWithWeek));
+        const dateDiff = dTWithWeek.getTime() < dFWithWeek.getTime();
+
+        let variables = {
+            ...currentData,
+            dt: dTWithWeek.toISOString(),
+            wt: moment(dTWithWeek).get("week"),
+            yt: dTWithWeek.getFullYear()
+        };
 
         if(!/[0-9]/g.test(toWeekText)) {
             setError({
@@ -243,31 +250,40 @@ const NoLit = ({
                 message: "The week cannot be greater than 52.",
                 input: "toWeek"
             });
-        } else if(dateDiff < 0) {
-            setError({
-                message: "The next date selection cannot be earlier than the previous date selection.",
-                input: "toWeek"
-            });
         } else {
             if(error && error.input === "toWeek") {
                 setError(null);
             }
         }
 
+        if(dateDiff) {
+            setDFState(dTWithWeek.toISOString());
+            setFromWeekText(Number(moment(dTWithWeek).get("week")));
+            setFromYear(Number(dTWithWeek.getFullYear()));
+            variables = {
+                ...variables,
+                df: dTWithWeek.toISOString(),
+                wf: moment(dTWithWeek).get("week"),
+                yf: dTWithWeek.getFullYear()
+            }
+        }
+
         setDTState(dTWithWeek.toISOString());
-        setData({
-            ...currentData,
-            dt: dTWithWeek.toISOString(),
-            wt: moment(dTWithWeek).get("week"),
-            yt: dTWithWeek.getFullYear()
-        });
+        setData(variables);
     }, [toWeekText]);
 
     useEffect(() => {
         const dTWithWeek = new Date(moment(new Date(dTState)).set("week", toWeekText));
         const dFWithWeek = new Date(moment(new Date(dFState)).set("week", fromWeekText));
 
-        const dateDiff = moment(dTWithWeek).diff(moment(dFWithWeek));
+        const dateDiff = dTWithWeek.getTime() < dFWithWeek.getTime();
+
+        let variables = {
+            ...currentData,
+            df: dFWithWeek.toISOString(),
+            wf: moment(dFWithWeek).get("week"),
+            yf: dFWithWeek.getFullYear()
+        };
 
         if(!/[0-9]/g.test(fromWeekText)) {
             setError({
@@ -289,31 +305,40 @@ const NoLit = ({
                 message: "The week cannot be greater than 52.",
                 input: "fromWeek"
             });
-        } else if(dateDiff < 0) {
-            setError({
-                message: "The next date selection cannot be earlier than the previous date selection.",
-                input: "fromWeek"
-            });
         } else {
             if(error && error.input === "fromWeek") {
                 setError(null);
             }
         }
 
+        if(dateDiff) {
+            setDTState(dFWithWeek.toISOString());
+            setToWeekText(Number(moment(dFWithWeek).get("week")));
+            setToYear(Number(dFWithWeek.getFullYear()));
+            variables = {
+                ...variables,
+                dt: dFWithWeek.toISOString(),
+                wt: moment(dFWithWeek).get("week"),
+                yt: dFWithWeek.getFullYear()
+            }
+        }
+
         setDFState(dFWithWeek.toISOString());
-        setData({
-            ...currentData,
-            df: dFWithWeek.toISOString(),
-            wf: moment(dFWithWeek).get("week"),
-            yf: dFWithWeek.getFullYear()
-        });
+        setData(variables);
     }, [fromWeekText]);
 
     useEffect(() => {
         const dTWithYear = new Date(moment(new Date(dTState)).set("year", toYear));
         const dFWithYear = new Date(moment(new Date(dFState)).set("year", fromYear));
 
-        const dateDiff = moment(dTWithYear).diff(moment(dFWithYear));
+        const dateDiff = dTWithYear.getTime() < dFWithYear.getTime();
+
+        let variables = {
+            ...currentData,
+            df: dFWithYear.toISOString(),
+            wf: moment(dFWithYear).get("week"),
+            yf: dFWithYear.getFullYear()
+        };
 
         if(!/[0-9]/g.test(fromYear)) {
             setError({
@@ -330,31 +355,40 @@ const NoLit = ({
                 message: "The year selection cannot be less than 1800.",
                 input: "fromYear"
             });
-        } else if(dateDiff < 0) {
-            setError({
-                message: "The previous date selection cannot be next than the next date selection.",
-                input: "fromYear"
-            });
         } else {
             if(error && error.input === "fromYear") {
                 setError(null);
             }
         }
 
+        if(dateDiff && dFWithYear.getFullYear().toString().length === 4) {
+            setDTState(dFWithYear.toISOString());
+            setToWeekText(Number(moment(dFWithYear).get("week")));
+            setToYear(Number(dFWithYear.getFullYear()));
+            variables = {
+                ...variables,
+                dt: dFWithYear.toISOString(),
+                wt: moment(dFWithYear).get("week"),
+                yt: dFWithYear.getFullYear()
+            };
+        }
+
         setDFState(dFWithYear.toISOString());
-        setData({
-            ...currentData,
-            df: dFWithYear.toISOString(),
-            wf: moment(dFWithYear).get("week"),
-            yf: dFWithYear.getFullYear()
-        });
+        setData(variables);
     }, [fromYear]);
 
     useEffect(() => {
         const dTWithYear = new Date(moment(new Date(dTState)).set("year", toYear));
         const dFWithYear = new Date(moment(new Date(dFState)).set("year", fromYear));
 
-        const dateDiff = moment(dTWithYear).diff(moment(dFWithYear));
+        const dateDiff = dTWithYear.getTime() < dFWithYear.getTime();
+
+        let variables = {
+            ...currentData,
+            dt: dTWithYear.toISOString(),
+            wt: moment(dTWithYear).get("week"),
+            yt: dTWithYear.getFullYear()
+        };
 
         if(!/[0-9]/g.test(toYear)) {
             setError({
@@ -371,24 +405,26 @@ const NoLit = ({
                 message: "The year selection cannot be less than 1800.",
                 input: "toYear"
             });
-        } else if(dateDiff < 0) {
-            setError({
-                message: "The next date selection cannot be earlier than the previous date selection.",
-                input: "toYear"
-            });
         } else {
             if(error && error.input === "toYear") {
                 setError(null);
             }
         }
 
+        if(dateDiff && dTWithYear.getFullYear().toString().length === 4) {
+            setDFState(dTWithYear.toISOString());
+            setFromWeekText(Number(moment(dTWithYear).get("week")));
+            setFromYear(Number(dTWithYear.getFullYear()));
+            variables = {
+                ...variables,
+                df: dTWithYear.toISOString(),
+                wf: moment(dTWithYear).get("week"),
+                yf: dTWithYear.getFullYear()
+            }
+        }
+
         setDTState(dTWithYear.toISOString());
-        setData({
-            ...currentData,
-            dt: dTWithYear.toISOString(),
-            wt: moment(dTWithYear).get("week"),
-            yt: dTWithYear.getFullYear()
-        });
+        setData(variables);
     }, [toYear]);
 
     return <View>
